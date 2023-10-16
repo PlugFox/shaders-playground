@@ -27,32 +27,26 @@ class App extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    Center(
-                      child: _CardWithShimmers(),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 128),
-                        child: SizedBox(
-                          width: 92,
-                          height: 64,
-                          child: RoundedRectangle(
-                            radius: 16,
-                            color: Color(0x7F00FF00),
-                          ),
+                    _CardWithShimmers(),
+                    Padding(
+                      padding: EdgeInsets.only(right: 128),
+                      child: SizedBox(
+                        width: 92,
+                        height: 64,
+                        child: RoundedRectangle(
+                          radius: 16,
+                          color: Color(0x7F00FF00),
                         ),
                       ),
                     ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 128),
-                        child: SizedBox(
-                          width: 64,
-                          height: 92,
-                          child: RoundedRectangle(
-                            radius: 16,
-                            color: Color(0x7F0000FF),
-                          ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 128),
+                      child: SizedBox(
+                        width: 64,
+                        height: 92,
+                        child: RoundedRectangle(
+                          radius: 16,
+                          color: Color(0x7F0000FF),
                         ),
                       ),
                     ),
