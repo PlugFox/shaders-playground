@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui' as ui show FragmentProgram, FragmentShader;
 
 import 'package:flutter/foundation.dart';
@@ -70,7 +71,10 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   static final Future<ui.FragmentShader?> _shaderFuture =
       ui.FragmentProgram.fromAsset('assets/shaders/shimmer.frag')
           .then<ui.FragmentShader?>((program) => program.fragmentShader(),
-              onError: (_, __) => null);
+              onError: (error, __) {
+    log('Failed to load shader: $error');
+    return false;
+  });
 
   /// Seed value notifier for shader mutation.
   late final ValueNotifier<double> _seed;
