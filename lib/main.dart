@@ -22,38 +22,43 @@ class App extends StatelessWidget {
             title: const Text('Shimmer shader'),
           ),
           body: const SafeArea(
-            child: Stack(
-              children: <Widget>[
-                Center(
-                  child: _CardWithShimmers(),
-                ),
-                Align(
-                  alignment: Alignment(-.15, -.25),
-                  child: SizedBox(
-                    width: 128,
-                    height: 64,
-                    child: RoundedRectangle(
-                      radius: 0,
-                      color: Color(0x7F00ff00),
-                      borderWidth: 2,
-                      borderColor: Colors.black,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: _CardWithShimmers(),
                     ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment(-.15, .25),
-                  child: SizedBox(
-                    width: 64,
-                    height: 128,
-                    child: RoundedRectangle(
-                      radius: 0,
-                      color: Color(0x7F0000ff),
-                      borderWidth: 0,
-                      borderColor: Colors.black,
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 128),
+                        child: SizedBox(
+                          width: 92,
+                          height: 64,
+                          child: RoundedRectangle(
+                            radius: 16,
+                            color: Color(0x7F00FF00),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 128),
+                        child: SizedBox(
+                          width: 64,
+                          height: 92,
+                          child: RoundedRectangle(
+                            radius: 16,
+                            color: Color(0x7F0000FF),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -89,7 +94,7 @@ class _CardWithShimmers extends StatelessWidget {
               size: Size.square(128),
               cornerRadius: 48,
               speed: 5,
-              color: Colors.amber,
+              color: Colors.indigo,
             ),
             SizedBox(height: 8),
             Shimmer(

@@ -11,8 +11,8 @@ class RoundedRectangle extends StatelessWidget {
   const RoundedRectangle({
     this.color = const Color(0x7FE0E0E0),
     this.radius = 16,
-    this.borderColor = const Color(0x7F000000),
-    this.borderWidth = 1,
+    this.borderColor = const Color(0x00000000),
+    this.borderWidth = 0,
     super.key,
   });
 
@@ -78,10 +78,15 @@ class _RRectPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
+
     if (shader == null) {
-      return canvas.drawRRect(
+      canvas.drawRRect(
           RRect.fromRectAndRadius(rect, Radius.circular(radius)),
-          Paint()..color = const Color(0x7FFF0000) /* color */);
+          Paint()
+            ..color = color
+            ..style = PaintingStyle.fill
+            ..blendMode = BlendMode.srcOver);
+      return;
     }
     final paint = Paint()
       ..shader = (shader!
@@ -100,7 +105,6 @@ class _RRectPainter extends CustomPainter {
             11, borderWidth.clamp(0, size.shortestSide / 2))) // Border Width
       ..blendMode = BlendMode.srcOver;
     canvas.drawRect(rect, paint);
-    //canvas.drawRect(rect, Paint()..color = const Color(0x7FFF0000));
   }
 
   @override
