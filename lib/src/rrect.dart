@@ -10,9 +10,9 @@ class RoundedRectangle extends StatelessWidget {
   /// {@macro rrect}
   const RoundedRectangle({
     this.color = const Color(0x7FE0E0E0),
-    this.radius = 16,
+    this.radius = 16.0,
     this.borderColor = const Color(0x00000000),
-    this.borderWidth = 0,
+    this.borderWidth = .0,
     super.key,
   });
 

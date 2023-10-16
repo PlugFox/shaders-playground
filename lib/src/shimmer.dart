@@ -16,10 +16,10 @@ class Shimmer extends StatefulWidget {
   const Shimmer({
     this.color,
     this.backgroundColor,
-    this.speed = 15,
+    this.speed = 15.0,
     this.stripeWidth = .2,
-    this.size = const Size(128, 28),
-    this.cornerRadius = 8,
+    this.size = const Size(128.0, 28.0),
+    this.cornerRadius = 8.0,
     this.initialSeed = .0,
     super.key,
   });
@@ -94,7 +94,9 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _ticker.dispose();
+    _ticker
+      ..stop()
+      ..dispose();
     _seed.dispose();
     super.dispose();
   }
