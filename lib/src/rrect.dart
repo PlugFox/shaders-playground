@@ -9,18 +9,21 @@ import 'package:flutter/widgets.dart';
 class RoundedRectangle extends StatelessWidget {
   /// {@macro rrect}
   const RoundedRectangle({
-    this.color,
-    this.radius,
+    this.color = const Color(0x7FE0E0E0),
+    this.radius = 16,
     this.borderColor = const Color(0x7F000000),
     this.borderWidth = 1,
     super.key,
   });
 
+  /// Prepare shader.
+  static Future<void> init() => _shaderFuture;
+
   /// The color used for the rrect.
-  final Color? color;
+  final Color color;
 
   /// Radius of the rrect.
-  final double? radius;
+  final double radius;
 
   /// Border color.
   final Color borderColor;
@@ -44,8 +47,8 @@ class RoundedRectangle extends StatelessWidget {
         builder: (context, snapshot) => CustomPaint(
           painter: _RRectPainter(
             shader: snapshot.data,
-            color: color ?? const Color(0x7FE0E0E0),
-            radius: radius ?? 16,
+            color: color,
+            radius: radius,
             borderColor: borderColor,
             borderWidth: borderWidth,
           ),

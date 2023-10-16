@@ -11,32 +11,35 @@ uniform float uBorderThickness; // thickness of the border
 
 out vec4 fragColor;
 
+float udRoundBox(vec2 p, vec2 b, float r) {
+  return length(max(abs(p) - b + vec2(r), 0.0)) - r;
+}
+
 void main() {
-  vec2 position = gl_FragCoord.xy / uSize; // Нормализованные координаты
+  // Преобразование координат фрагмента в диапазон от [0,0] до [uSize.x,
+  // uSize.y]
+  vec2 position = gl_FragCoord.xy / uSize;
 
-  // Проверка, находится ли фрагмент в пределах прямоугольника.
-  if (position.x > 0.0 && position.x < 1.0 && position.y > 0.0 &&
-      position.y < 1.0) {
-    // Вычисляем координаты внутри прямоугольника, относительно его размеров и
-    // толщины рамки
-    float innerRectLeft = uBorderThickness / uSize.x;
-    float innerRectRight = 1.0 - innerRectLeft;
-    float innerRectBottom = uBorderThickness / uSize.y;
-    float innerRectTop = 1.0 - innerRectBottom;
+  // Преобразуем координаты так, чтобы центр прямоугольника был в [0.5,0.5]
+  position -= vec2(0.5);
 
-    // Проверяем, находится ли точка внутри внутреннего прямоугольника (за
-    // пределами рамки)
-    if (position.x > innerRectLeft && position.x < innerRectRight &&
-        position.y > innerRectBottom && position.y < innerRectTop) {
-      fragColor = uColor; // Если да, используем цвет из uColor для внутренней
-                          // части прямоугольника.
-    } else {
-      fragColor = uBorderColor; // Если нет, точка находится на рамке,
-                                // используем цвет рамки.
-    }
+  // Вычисляем размер прямоугольника, учитывая толщину границы
+  vec2 boxSize = vec2(0.5) - vec2(uBorderThickness) / uSize;
+
+  // Сначала рассчитываем внутреннюю часть прямоугольника
+  float inner = udRoundBox(position, boxSize, uRadius / min(uSize.x, uSize.y));
+
+  // Теперь рассчитываем внешнюю часть прямоугольника, которая будет границей
+  float outer =
+      udRoundBox(position, vec2(0.5), uRadius / min(uSize.x, uSize.y));
+
+  if (inner < 0.0) {
+    fragColor = uColor;
+  } else if (outer < 0.0) {
+    fragColor = uBorderColor;
   } else {
-    fragColor =
-        vec4(0.0, 0.0, 0.0, 0.0); // Если точка за пределами прямоугольника,
-                                  // используем полностью прозрачный цвет.
+    fragColor = vec4(0.0); // полностью прозрачный цвет
   }
 }
+
+// fragColor = vec4(0.0);
