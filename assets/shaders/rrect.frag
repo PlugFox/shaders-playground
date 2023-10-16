@@ -16,22 +16,27 @@ float udRoundBox(vec2 p, vec2 b, float r) {
 }
 
 void main() {
-  // Преобразование координат фрагмента в диапазон от [0,0] до [uSize.x,
-  // uSize.y]
-  vec2 position = gl_FragCoord.xy / uSize;
+  vec2 position =
+      gl_FragCoord.xy / uSize; // координаты в пределах [0,0] до [1,1]
+  position -= vec2(0.5); // центрирование координат, теперь в пределах
+                         // [-0.5,-0.5] до [0.5,0.5]
 
-  // Преобразуем координаты так, чтобы центр прямоугольника был в [0.5,0.5]
-  position -= vec2(0.5);
+  float aspectRatio = uSize.x / uSize.y; // учёт соотношения сторон
 
-  // Вычисляем размер прямоугольника, учитывая толщину границы
-  vec2 boxSize = vec2(0.5) - vec2(uBorderThickness) / uSize;
+  // коррекция позиции для учета соотношения сторон
+  vec2 correctedPosition = vec2(position.x * aspectRatio, position.y);
 
-  // Сначала рассчитываем внутреннюю часть прямоугольника
-  float inner = udRoundBox(position, boxSize, uRadius / min(uSize.x, uSize.y));
+  // Вычисляем внешнюю часть прямоугольника (границу)
+  float outer = udRoundBox(correctedPosition, vec2(0.5 * aspectRatio, 0.5),
+                           uRadius / uSize.y);
 
-  // Теперь рассчитываем внешнюю часть прямоугольника, которая будет границей
-  float outer =
-      udRoundBox(position, vec2(0.5), uRadius / min(uSize.x, uSize.y));
+  // Размер внутреннего прямоугольника, учитывая толщину границы и соотношение
+  // сторон
+  vec2 innerBoxSize = vec2(0.5 - uBorderThickness / uSize.x * aspectRatio,
+                           0.5 - uBorderThickness / uSize.y);
+
+  // Вычисляем внутреннюю часть прямоугольника
+  float inner = udRoundBox(correctedPosition, innerBoxSize, uRadius / uSize.y);
 
   if (inner < 0.0) {
     fragColor = uColor;

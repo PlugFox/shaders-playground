@@ -35,7 +35,7 @@ class App extends StatelessWidget {
                     child: RoundedRectangle(
                       radius: 16,
                       color: Color(0x7F00ff00),
-                      borderWidth: 1,
+                      borderWidth: 2,
                       borderColor: Colors.black,
                     ),
                   ),
