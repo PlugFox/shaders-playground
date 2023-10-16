@@ -16,27 +16,26 @@ float udRoundBox(vec2 p, vec2 b, float r) {
 }
 
 void main() {
-  vec2 position =
-      gl_FragCoord.xy / uSize; // координаты в пределах [0,0] до [1,1]
-  position -= vec2(0.5); // центрирование координат, теперь в пределах
-                         // [-0.5,-0.5] до [0.5,0.5]
+  vec2 position = gl_FragCoord.xy / uSize;
+  position -= vec2(0.5); // центрируем координаты
 
-  float aspectRatio = uSize.x / uSize.y; // учёт соотношения сторон
+  vec2 correctedPosition =
+      position * uSize /
+      min(uSize.x, uSize.y); // корректируем позицию с учетом соотношения сторон
 
-  // коррекция позиции для учета соотношения сторон
-  vec2 correctedPosition = vec2(position.x * aspectRatio, position.y);
+  // Рассчитываем размеры внешнего прямоугольника, учитывая соотношение сторон
+  vec2 outerBoxSize = vec2(0.5, 0.5) * uSize / min(uSize.x, uSize.y);
 
-  // Вычисляем внешнюю часть прямоугольника (границу)
-  float outer = udRoundBox(correctedPosition, vec2(0.5 * aspectRatio, 0.5),
-                           uRadius / uSize.y);
+  // Рассчитываем размеры внутреннего прямоугольника, учитывая толщину границы и
+  // соотношение сторон
+  vec2 innerBoxSize = outerBoxSize - uBorderThickness / min(uSize.x, uSize.y);
 
-  // Размер внутреннего прямоугольника, учитывая толщину границы и соотношение
-  // сторон
-  vec2 innerBoxSize = vec2(0.5 * aspectRatio - uBorderThickness / uSize.x,
-                           0.5 - uBorderThickness / uSize.y);
+  // Скорректированный радиус скругления
+  float correctedRadius = uRadius / min(uSize.x, uSize.y);
 
-  // Вычисляем внутреннюю часть прямоугольника
-  float inner = udRoundBox(correctedPosition, innerBoxSize, uRadius / uSize.y);
+  // Вычисляем внешний и внутренний прямоугольники
+  float outer = udRoundBox(correctedPosition, outerBoxSize, correctedRadius);
+  float inner = udRoundBox(correctedPosition, innerBoxSize, correctedRadius);
 
   if (inner < 0.0) {
     fragColor = uColor;
@@ -46,6 +45,3 @@ void main() {
     fragColor = vec4(0.0); // полностью прозрачный цвет
   }
 }
-
-
-// fragColor = vec4(0.0);

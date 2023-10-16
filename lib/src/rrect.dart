@@ -91,12 +91,13 @@ class _RRectPainter extends CustomPainter {
         ..setFloat(3, color.green / 255) // Green
         ..setFloat(4, color.blue / 255) // Blue
         ..setFloat(5, color.alpha / 255) // Alpha
-        ..setFloat(6, radius) // Radius
+        ..setFloat(6, radius.clamp(0, size.shortestSide / 2)) // Radius
         ..setFloat(7, borderColor.red / 255) // Border Red
         ..setFloat(8, borderColor.green / 255) // Border Green
         ..setFloat(9, borderColor.blue / 255) // Border Blue
         ..setFloat(10, borderColor.alpha / 255) // Border Alpha
-        ..setFloat(11, borderWidth)) // Border Width
+        ..setFloat(
+            11, borderWidth.clamp(0, size.shortestSide / 2))) // Border Width
       ..blendMode = BlendMode.srcOver;
     canvas.drawRect(rect, paint);
     //canvas.drawRect(rect, Paint()..color = const Color(0x7FFF0000));
