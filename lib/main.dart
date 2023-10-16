@@ -28,13 +28,26 @@ class App extends StatelessWidget {
                   child: _CardWithShimmers(),
                 ),
                 Align(
-                  alignment: Alignment(-.15, -.15),
+                  alignment: Alignment(-.15, -.25),
                   child: SizedBox(
                     width: 128,
                     height: 64,
                     child: RoundedRectangle(
                       radius: 16,
                       color: Color(0x7F00ff00),
+                      borderWidth: 2,
+                      borderColor: Colors.black,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(-.15, .25),
+                  child: SizedBox(
+                    width: 64,
+                    height: 128,
+                    child: RoundedRectangle(
+                      radius: 16,
+                      color: Color(0x7F0000ff),
                       borderWidth: 2,
                       borderColor: Colors.black,
                     ),

@@ -32,7 +32,7 @@ void main() {
 
   // Размер внутреннего прямоугольника, учитывая толщину границы и соотношение
   // сторон
-  vec2 innerBoxSize = vec2(0.5 - uBorderThickness / uSize.x * aspectRatio,
+  vec2 innerBoxSize = vec2(0.5 * aspectRatio - uBorderThickness / uSize.x,
                            0.5 - uBorderThickness / uSize.y);
 
   // Вычисляем внутреннюю часть прямоугольника
@@ -46,5 +46,6 @@ void main() {
     fragColor = vec4(0.0); // полностью прозрачный цвет
   }
 }
+
 
 // fragColor = vec4(0.0);

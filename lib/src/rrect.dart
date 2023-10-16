@@ -99,6 +99,7 @@ class _RRectPainter extends CustomPainter {
         ..setFloat(11, borderWidth)) // Border Width
       ..blendMode = BlendMode.srcOver;
     canvas.drawRect(rect, paint);
+    //canvas.drawRect(rect, Paint()..color = const Color(0x7FFF0000));
   }
 
   @override
