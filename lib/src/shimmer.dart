@@ -23,6 +23,9 @@ class Shimmer extends StatefulWidget {
     super.key,
   });
 
+  /// Prepare shader.
+  static Future<void> init() => _ShimmerState._shaderFuture;
+
   /// The color used for the shimmering effect,
   /// usually a light color for contrast.
   /// If not specified, defaults to the color
