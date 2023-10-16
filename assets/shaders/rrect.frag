@@ -12,7 +12,11 @@ uniform float uBorderThickness; // thickness of the border
 out vec4 fragColor;
 
 float udRoundBox(vec2 p, vec2 b, float r) {
-  return length(max(abs(p) - b + vec2(r), 0.0)) - r;
+  if (r == 0.0) {
+    return max(abs(p.x) - b.x, abs(p.y) - b.y);
+  } else {
+    return length(max(abs(p) - b + vec2(r), 0.0)) - r;
+  }
 }
 
 void main() {
@@ -28,7 +32,10 @@ void main() {
 
   // Рассчитываем размеры внутреннего прямоугольника, учитывая толщину границы и
   // соотношение сторон
-  vec2 innerBoxSize = outerBoxSize - uBorderThickness / min(uSize.x, uSize.y);
+  vec2 innerBoxSize = outerBoxSize;
+  if (uBorderThickness > 0.0) {
+    innerBoxSize -= uBorderThickness / min(uSize.x, uSize.y);
+  }
 
   // Скорректированный радиус скругления
   float correctedRadius = uRadius / min(uSize.x, uSize.y);
@@ -39,7 +46,7 @@ void main() {
 
   if (inner < 0.0) {
     fragColor = uColor;
-  } else if (outer < 0.0) {
+  } else if (outer < 0.0 && uBorderThickness > 0.0) {
     fragColor = uBorderColor;
   } else {
     fragColor = vec4(0.0); // полностью прозрачный цвет
